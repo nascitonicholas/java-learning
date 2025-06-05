@@ -48,35 +48,30 @@ Este projeto será evoluído gradualmente, aplicando práticas como **Dockeriza�
 
 ```
 src/
-└── main/
-├── java/
-│ └── br/
-│ └── com/
-│ └── taskmanager/
-│ ├── TaskManagerApplication.java
-│ │
-│ ├── domain/ # Regra de negócio pura (Entidades, Use Cases)
-│ │ ├── model/
-│ │ └── service/
-│ │
-│ ├── application/ # Serviços de aplicação, orquestração de casos de uso
-│ │ └── port/
-│ │ ├── in/ # Interfaces para entrada (Use Cases)
-│ │ └── out/ # Interfaces para saída (Persistence, External Systems)
-│ │
-│ ├── adapter/ # Implementações das interfaces
-│ │ ├── in/ # Entradas (Controller REST, Mensageria, etc.)
-│ │ │ └── web/
-│ │ │ └── controller/
-│ │ │
-│ │ └── out/ # Saídas (Repositórios, APIs, etc.)
-│ │ └── persistence/
-│ │
-│ └── config/ # Configurações específicas (Beans, Swagger, etc.)
+├── main/
+│ └ java/
+│  └── br/
+│   └── com/
+│    └── taskmanager/
+│    ├── TaskManagerApplication.java
+│    │
+│    ├── adapter/ # Comunicação com o mundo externo
+│    │ ├── in/
+│    │ └── out/
+│    │
+│    ├── application/ # Regra de negócio pura (Entidades, Use Cases)
+│    │ └── domain/
+│    │  ├── model/ # Modelos de domínio (Entidades, Value Objects)
+│    │  └── services/ # Serviços de domínio 
+│    │ └── port/
+│    │  ├── in/ # Interfaces para entrada (Use Cases)
+│    │  └── out/ # Interfaces para saída (Persistence, External Systems)
+│    │
+│    ├── common/ # Classes comuns (Configurações, Utilitários)
 │
-└── resources/
-├── application.properties # Configurações da aplicação
-└── schema.sql # Scripts de banco (opcional)
+│ └─ resources/
+│  ├── application.properties # Configurações da aplicação
+│  └── schema.sql # Scripts de banco (opcional)
 ```
 
 ---
