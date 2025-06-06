@@ -27,7 +27,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
 @Tag(name = "Tasks", description = "Administração de tarefas")
 public class TaskManagerController {
