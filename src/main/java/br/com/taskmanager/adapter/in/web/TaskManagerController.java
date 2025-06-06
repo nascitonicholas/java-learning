@@ -8,6 +8,8 @@ import br.com.taskmanager.application.port.in.CreateTaskUseCase;
 import br.com.taskmanager.application.port.in.DeleteTaskUseCase;
 import br.com.taskmanager.application.port.in.SearchTaskUseCase;
 import br.com.taskmanager.application.port.in.UpdateTaskUseCase;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
