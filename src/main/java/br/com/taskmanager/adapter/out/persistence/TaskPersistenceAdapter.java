@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -26,27 +27,27 @@ public class TaskPersistenceAdapter implements TaskPersistence {
 
     @Override
     public void delete(Long taskId) {
-
+        repository.deleteById(taskId);
     }
 
     @Override
     public List<TaskModel> findAll() {
-        List<TaskModel> modelsList = new ArrayList<>();
         List<TaskEntity> entities = repository.findAll();
-        entities.parallelStream().forEach(enitty -> {
-            modelsList.add(TaskMapper.toModel(enitty));
-        });
-        modelsList.sort(Comparator.comparing(TaskModel::getId));
-        return modelsList;
+        return entities.stream()
+                .map(TaskMapper::toModel)
+                .sorted(Comparator.comparing(TaskModel::getId))
+                .toList();
     }
 
     @Override
     public TaskModel findById(Long taskId) {
-        return null;
+        Optional<TaskEntity> entity = repository.findById(taskId);
+        return entity.map(TaskMapper::toModel).orElse(null);
     }
 
     @Override
     public void update(TaskModel taskModel) {
-
+        TaskEntity entity = TaskMapper.toEntity(taskModel);
+        repository.save(entity);
     }
 }

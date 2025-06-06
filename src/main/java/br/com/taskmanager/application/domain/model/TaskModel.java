@@ -34,6 +34,16 @@ public class TaskModel {
         this.updatedAt = updatedAt;
     }
 
+    public TaskModel updated(String title, String description, String status, String dueDate) {
+        validate(title, description, status, dueDate);
+        this.title = title;
+        this.description = description;
+        this.status = TaskStatus.valueOf(status);
+        this.dueDate = LocalDateTime.parse(dueDate);
+        this.updatedAt = LocalDateTime.now();
+        return this;
+    }
+
     public static TaskModel create(String title, String description, String status, String dueDate) {
         validate(title, description, status, dueDate);
         return new TaskModel(title, description, status, dueDate);

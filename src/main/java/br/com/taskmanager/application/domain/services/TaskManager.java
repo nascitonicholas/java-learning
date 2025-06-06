@@ -32,7 +32,7 @@ public abstract class TaskManager implements CreateTaskUseCase, DeleteTaskUseCas
     };
 
     @Override
-    public void updateTask(TaskCommand taskCommand) {
+    public TaskDto updateTask(Long taskId, TaskCommand taskCommand) {
         throw new UnsupportedOperationException("Not implemented yet");
     };
 

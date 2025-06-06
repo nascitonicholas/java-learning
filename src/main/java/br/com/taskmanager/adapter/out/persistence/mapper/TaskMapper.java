@@ -7,6 +7,7 @@ public class TaskMapper {
 
     public static TaskEntity toEntity(TaskModel model) {
         return TaskEntity.builder()
+                .id(model.getId())
                 .title(model.getTitle())
                 .description(model.getDescription())
                 .status(model.getStatus())
