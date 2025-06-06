@@ -8,6 +8,8 @@ import br.com.taskmanager.application.port.in.CreateTaskUseCase;
 import br.com.taskmanager.application.port.in.DeleteTaskUseCase;
 import br.com.taskmanager.application.port.in.SearchTaskUseCase;
 import br.com.taskmanager.application.port.in.UpdateTaskUseCase;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +35,7 @@ public class TaskManagerController {
     private final DeleteTaskUseCase deleteTaskUseCase;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<?>> createTask(@RequestBody TaskRequest request) {
+    public ResponseEntity<ApiResponse<?>> createTask(@Valid @RequestBody TaskRequest request) {
         TaskCommand command = TaskCommand.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
@@ -54,14 +56,14 @@ public class TaskManagerController {
     }
 
     @GetMapping("/{taskId}")
-    public ResponseEntity<ApiResponse<?>> getTaskById(@PathVariable Long taskId) {
+    public ResponseEntity<ApiResponse<?>> getTaskById(@NotBlank(message = "O id não pode ser vazio ou nulo")  @PathVariable Long taskId) {
         TaskDto task = searchTaskUseCase.searchTaskById(taskId);
         ApiResponse<TaskDto> response = new ApiResponse<>("Task search by id successful", task);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{taskId}")
-    public ResponseEntity<ApiResponse<?>> updateTask(@PathVariable Long taskId, @RequestBody TaskRequest request) {
+    public ResponseEntity<ApiResponse<?>> updateTask(@NotBlank(message = "O id não pode ser vazio ou nulo") @PathVariable Long taskId, @Valid @RequestBody TaskRequest request) {
         TaskCommand command = TaskCommand.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
@@ -74,7 +76,7 @@ public class TaskManagerController {
     }
 
     @DeleteMapping("/{taskId}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long taskId) {
+    public ResponseEntity<Void> deleteTask(@NotBlank(message = "O id não pode ser vazio ou nulo") @PathVariable Long taskId) {
         deleteTaskUseCase.deleteTask(taskId);
         return ResponseEntity.noContent().build();
     }
