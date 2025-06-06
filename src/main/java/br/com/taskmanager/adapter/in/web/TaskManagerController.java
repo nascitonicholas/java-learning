@@ -27,6 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tasks")
 @RequiredArgsConstructor
+@Tag(name = "Tasks", description = "Administração de tarefas")
 public class TaskManagerController {
 
     private final CreateTaskUseCase createTaskUseCase;
@@ -35,6 +36,7 @@ public class TaskManagerController {
     private final DeleteTaskUseCase deleteTaskUseCase;
 
     @PostMapping
+    @Operation(summary = "Cria uma nova tarefa")
     public ResponseEntity<ApiResponse<?>> createTask(@Valid @RequestBody TaskRequest request) {
         TaskCommand command = TaskCommand.builder()
                 .title(request.getTitle())
@@ -49,6 +51,7 @@ public class TaskManagerController {
     }
 
     @GetMapping
+    @Operation(summary = "Busca todas as tarefas")
     public ResponseEntity<ApiResponse<?>> getTasks() {
         List<TaskDto> taskList = searchTaskUseCase.searchTasks();
         ApiResponse<List<TaskDto>> response = new ApiResponse<>("Task search completed successfully.", taskList);
@@ -56,6 +59,7 @@ public class TaskManagerController {
     }
 
     @GetMapping("/{taskId}")
+    @Operation(summary = "Busca uma tarefa pelo ID")
     public ResponseEntity<ApiResponse<?>> getTaskById(@NotBlank(message = "O id não pode ser vazio ou nulo")  @PathVariable Long taskId) {
         TaskDto task = searchTaskUseCase.searchTaskById(taskId);
         ApiResponse<TaskDto> response = new ApiResponse<>("Task search by id successful", task);
@@ -63,6 +67,7 @@ public class TaskManagerController {
     }
 
     @PutMapping("/{taskId}")
+    @Operation(summary = "Atualiza uma tarefa pelo ID")
     public ResponseEntity<ApiResponse<?>> updateTask(@NotBlank(message = "O id não pode ser vazio ou nulo") @PathVariable Long taskId, @Valid @RequestBody TaskRequest request) {
         TaskCommand command = TaskCommand.builder()
                 .title(request.getTitle())
@@ -76,6 +81,7 @@ public class TaskManagerController {
     }
 
     @DeleteMapping("/{taskId}")
+    @Operation(summary = "Deleta uma tarefa pelo ID")
     public ResponseEntity<Void> deleteTask(@NotBlank(message = "O id não pode ser vazio ou nulo") @PathVariable Long taskId) {
         deleteTaskUseCase.deleteTask(taskId);
         return ResponseEntity.noContent().build();
